@@ -1,0 +1,153 @@
+package application;
+
+
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+
+class layout extends JFrame {
+
+   JRadioButton jB1, jB2, jB3, jB4;
+
+   ButtonGroup buttonGroup;
+   JLabel jLabel;
+   JLabel jL1 ,jL2 ,jL3;
+  
+static JTextField tF;
+
+   JButton jB;
+
+   public layout() {
+       
+       this.setLayout(null);
+       //creates all buttons
+       jB1 = new JRadioButton();
+       jB2 = new JRadioButton();
+       jB3 = new JRadioButton();
+       jB4 = new JRadioButton();
+
+       
+       buttonGroup = new ButtonGroup();
+       //labels buttons and prompts the user
+       jLabel = new JLabel("Please enter your total then select a tip percntage");
+       jL1 = new JLabel("Tip amount :$0.0");
+       jL2 = new JLabel("Tax amount :$0.0");
+       jL3 = new JLabel("Total amount :$0.0");
+      
+       jB = new JButton("Calculate Total");
+      
+       jLabel.setBounds(250,30,500,50);
+       jB.setBounds(255, 300 , 180 ,50);
+      
+       // all the labels x position will be same
+       jL3.setBounds(275, 250 , 180 ,50);
+       jL2.setBounds(275, 200 , 180 ,50);
+       jL1.setBounds(275, 150 , 180 ,50);
+      
+       tF = new JTextField("");
+       tF.setBounds(new Rectangle(130, 80, 500, 40));
+
+       // makes all radio-buttons transparent
+       jB1.setContentAreaFilled(false);
+       jB2.setContentAreaFilled(false);
+       jB3.setContentAreaFilled(false);
+       jB4.setContentAreaFilled(false);
+      
+       //sets all redio buttons to the same y coordinate, therefore in the same row
+       jB1.setBounds(160 ,130 ,50 ,30);
+       jB2.setBounds(260 ,130 ,60 ,30);
+       jB3.setBounds(360 ,130 ,70 ,30);
+       jB4.setBounds(460 ,130 ,80 ,30);
+      
+       jB1.setText("0%");
+       jB2.setText("10%");
+       jB3.setText("15%");
+       jB4.setText("18%");
+
+       // adding everything to the JFrame
+       this.add(jLabel);
+       this.add(jL1);
+       this.add(jL2);
+       this.add(jL3);
+      
+       this.add(jB1);
+       this.add(jB2);
+       this.add(jB3);
+       this.add(jB4);
+       this.add(tF);
+       this.add(jB);
+      
+       // adding the radio buttons into a button group
+       buttonGroup.add(jB1);
+       buttonGroup.add(jB2);
+       buttonGroup.add(jB3);
+       buttonGroup.add(jB4);
+         
+       // creating the anonymous class
+       jB.addActionListener(new ActionListener() {
+
+// Override Method
+   public void actionPerformed(ActionEvent event)
+   {
+       // getting entered text
+       String txt = tF.getText();
+      
+       float charge = 0;
+      
+       try {
+           charge = Float.parseFloat(txt);
+                   } catch (Exception e) {
+                       System.err.println(e);
+                   }
+      
+       // calculating the tip percentage
+   float tipP = 0;
+   if (jB1.isSelected()) {
+  
+       tipP = 0;
+   }   
+   else if (jB2.isSelected()) {
+  
+       tipP = 0.1f;
+   }
+   else if (jB3.isSelected()) {
+  
+       tipP = 0.15f;
+   } else {
+       tipP = 0.18f;
+   }
+  
+   float tipAmount = charge * tipP ;
+   // calculating the tax amount
+   float taxAmount = charge * 0.08f;
+  
+           jL1.setText("Tip amount :$"+tipAmount);
+           jL2.setText("Tax amount :$"+taxAmount);
+           jL3.setText("Total amount :$"+ (charge + tipAmount + taxAmount) );
+  
+   }
+   });
+   }
+
+}
+
+public class Tip {
+  
+   public static void main(String[] args) throws Exception {
+       layout r =new layout();
+      
+       r.setBounds(100, 100, 800, 600);
+       r.getContentPane().setBackground(new Color(100, 0 ,200)); //sets background color to purple
+       r.setTitle("Tip Calculator");
+       r.setVisible(true);
+   }
+}
