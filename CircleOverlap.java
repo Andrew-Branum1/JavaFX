@@ -1,0 +1,136 @@
+package application;
+
+import java.util.Random;
+
+import javafx.application.Application;
+
+import static javafx.application.Application.launch;
+
+import javafx.scene.Scene;
+
+import javafx.scene.layout.Pane;
+
+import javafx.scene.paint.Color;
+
+import javafx.scene.paint.Paint;
+
+import javafx.scene.shape.Circle;
+
+import javafx.stage.Stage;
+
+public class CircleOverlap extends Application {
+
+    public void start(Stage primaryStage) {
+
+       
+    	//creates a random
+        Random random = new Random();
+        //sets window dimensions
+        int windowWidth = 600;
+        int windowHeight = 600;
+
+        //initializies an array of 40 circles
+        Circle array[] = new Circle[40];
+
+        for (int i = 0; i < array.length; i++) {
+
+         
+        	//generates random value for radius
+            int radius = random.nextInt(21) + 10;
+
+            //generates random x and y points within the window
+            int centerX = random.nextInt(windowWidth - 2 * radius) + radius;
+
+            int centerY = random.nextInt(windowHeight - 2 * radius) + radius;
+
+            //creating Circle object
+
+            Circle circle = new Circle();
+
+            circle.setCenterX(centerX);
+
+            circle.setCenterY(centerY);
+
+            circle.setRadius(radius);
+
+            //adds the circle to array
+            array[i] = circle;
+
+            //checks if circle is overlapping any previous circle
+
+            boolean isOverlapping = false;
+
+            //loops through the previous circles to see if they are overlapping
+
+            for (int j = 0; j < i; j++) {
+
+                //finds x, y and radius 
+
+                double x2 = array[j].getCenterX();
+
+                double dx = x2 - centerX;
+
+                double y2 = array[j].getCenterY();
+
+                double dy = y2 - centerY;
+
+                double r2 = array[j].getRadius();
+
+                //finding distance between this circle and the circle being checked
+
+                double distance = Math.sqrt((dx * dx) + (dy * dy));
+
+              
+
+                if (distance <= (radius + r2)) {
+
+                    //overlapping, setting red color
+
+                    Paint c = new Color(1.0, 0, 0, 0.3);
+
+                    array[i].setFill(c);
+
+                    isOverlapping = true;
+
+                    //changing the color of other circle
+
+                    array[j].setFill(c);
+
+                }
+
+            }
+
+            if (!isOverlapping) {
+
+                //not overlapping, setting red color
+
+                array[i].setFill(Color.RED);
+
+            }
+
+        }
+
+        //creating a pane and adding all circles
+
+        Pane root = new Pane();
+
+        root.getChildren().addAll(array);
+
+        Scene scene = new Scene(root, windowWidth, windowHeight);
+
+        primaryStage.setScene(scene);
+
+        primaryStage.setTitle("Overlapping Circles");
+
+        primaryStage.show();
+
+    }
+
+   public static void main(String[] args) {
+
+        launch(args);
+
+    }
+
+}
+
